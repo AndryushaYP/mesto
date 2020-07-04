@@ -1,0 +1,17 @@
+@import url(./__list/cards__list.css);
+@import url(./__list-item/cards__list-item.css);
+@import url(./__image/card__image.css);
+@import url(./__caption/card__caption.css);
+@import url(./__button/card__button.css);
+
+.cards {
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 48px;
+}
+
+@media screen and (max-width: 390px) {
+    .cards {
+        padding-top: 36px;
+    }
+}

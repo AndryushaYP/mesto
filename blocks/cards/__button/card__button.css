@@ -1,0 +1,13 @@
+.card__button {
+    background-color: white;
+    background-image: url(../../../images/like_image.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 21px;
+    height: 19px;
+    border: none;
+    margin-left: auto;
+    margin-right: 17px;
+    grid-area: button;
+    align-self: center;
+}
