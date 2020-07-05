@@ -1,8 +1,8 @@
-@import url(../profile/__avatar/profile__avatar.css);
-@import url(../profile/__info/profile__info.css);
-@import url(../profile/__title/profile__title.css);
-@import url(../profile/__subtitle/profile__subtitle.css);
-@import url(../profile/__button/profile__button.css);
+@import url(./__avatar/profile__avatar.css);
+@import url(./__info/profile__info.css);
+@import url(./__title/profile__title.css);
+@import url(./__subtitle/profile__subtitle.css);
+@import url(./__button/profile__button.css);
 
 .profile {
     width: 100%;
