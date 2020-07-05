@@ -14,3 +14,9 @@
     color: black;
     position: relative;
 }
+
+@media screen and (max-width: 475px) {
+    .popup__container {
+        width: 300px;
+    }
+}

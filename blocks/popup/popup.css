@@ -8,14 +8,14 @@
 
 .popup {
     display: none;
+    justify-content: center;
+    align-items: center;
     margin: 0 auto;
     box-sizing: border-box;
     width: 100vw;
     height: 100vh;
-    padding: 195px 425px 0;
     position: fixed;
     top: 0;
     left: 0;
-    right: 425px;
     background: rgba(0, 0, 0, 0.5);
 }
