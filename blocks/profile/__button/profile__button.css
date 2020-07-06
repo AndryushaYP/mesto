@@ -2,7 +2,6 @@
 @import url(./_add/profile__button_add.css);
 
 .profile__button {
-    border: 1px solid #FFFFFF;
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: center;

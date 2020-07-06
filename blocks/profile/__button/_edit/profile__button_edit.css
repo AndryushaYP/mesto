@@ -5,6 +5,7 @@
     margin-top: 19px;
     grid-area: edit;
     margin-left: 17px;
+    border: 1px solid #FFFFFF;
 }
 
 @media screen and (max-width: 918px) {
