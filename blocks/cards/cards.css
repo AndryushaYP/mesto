@@ -3,6 +3,7 @@
 @import url(./__image/card__image.css);
 @import url(./__caption/card__caption.css);
 @import url(./__button/card__button.css);
+@import url(./__delete/card__delete.css);
 
 .cards {
     width: 100%;

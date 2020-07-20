@@ -1,0 +1,22 @@
+.popup__edit {
+    margin: 0 auto;
+    padding: 0 36px 0;
+    box-sizing: border-box;
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    width: 430px;
+    height: 330px;
+    border-radius: 10px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+    color: black;
+    position: relative;
+}
+
+@media screen and (max-width: 475px) {
+    .popup__edit {
+        width: 300px;
+    }
+}
