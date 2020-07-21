@@ -1,11 +1,13 @@
 const mainPopup = document.querySelector('.popup');
 const popupEdit = mainPopup.querySelector('.popup__edit');
 const popupAdd = mainPopup.querySelector('.popup__add');
+const popupImage = mainPopup.querySelector('.popup__open-image');
 
 const buttonEdit = document.querySelector('.profile__button_edit');
 const buttonAdd = document.querySelector('.profile__button_add');
 const buttonCloseFormAdd = popupAdd.querySelector('.popup__button-close');
 const buttonCloseFormEdit = popupEdit.querySelector('.popup__button-close');
+const buttonClosePopupOpenImage = popupImage.querySelector('.popup__button-close');
 
 const nameInput = document.querySelector('.popup__info_name');
 const professionInput = document.querySelector('.popup__info_profession');
@@ -15,7 +17,6 @@ const linkInput = popupAdd.querySelector('.popup__info_link');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 
-
 function toggleModal (popup) {
 
     mainPopup.classList.toggle('popup_opened');
@@ -23,10 +24,15 @@ function toggleModal (popup) {
 
 }
 
+
+const titlePopupOpenImage = popupImage.querySelector('.popup__title');
+const urlPopupOpenImage = popupImage.querySelector('.popup__image');
+
 buttonEdit.addEventListener('click', () => toggleModal(popupEdit));
 buttonAdd.addEventListener('click', () => toggleModal(popupAdd));
 buttonCloseFormAdd.addEventListener('click', () => toggleModal(popupAdd));
 buttonCloseFormEdit.addEventListener('click', () => toggleModal(popupEdit));
+buttonClosePopupOpenImage.addEventListener('click', () => toggleModal(popupImage));
 
 function formSubmitHandler (evt) {
 
@@ -39,6 +45,7 @@ function formSubmitHandler (evt) {
 
 popupEdit.addEventListener('submit', formSubmitHandler);
     
+// Функция добавления карточки
 
 function addCard(evt) {
     
@@ -46,9 +53,24 @@ function addCard(evt) {
     const cardTemplate = document.querySelector('#card-template').content;
     const cardElement = cardTemplate.cloneNode(true);
 
-    cardElement.querySelector('.card__image').src = linkInput.value;
-    cardElement.querySelector('.card__caption').textContent = titleInput.value;
-  
+    const cardImage =  cardElement.querySelector('.card__image');
+    cardImage.src = linkInput.value;
+    const cardTitle = cardElement.querySelector('.card__caption');
+    cardTitle.textContent = titleInput.value;
+
+    const buttonDelete = cardElement.querySelector('.card__delete');
+
+    buttonDelete.addEventListener('click', function(){
+        const listItem = buttonDelete.closest('.cards__list-item');
+        listItem.remove();
+    });
+
+    cardImage.addEventListener('click', function() {
+        toggleModal(popupImage);
+        titlePopupOpenImage.textContent = cardTitle.textContent;
+        urlPopupOpenImage.src = cardImage.src;
+    });
+
     cardList.prepend(cardElement);
     toggleModal(popupAdd);
 }
@@ -84,19 +106,29 @@ const initialCards = [
 
 const cardList = document.querySelector('.cards__list');
 
-initialCards.forEach((el, i) => {
-    const cardTemplate = document.querySelector('#card-template').content;
+initialCards.forEach((data) => {
+
+    const cardTemplate = document.querySelector('#card-template').content.querySelector('.cards__list-item');
     const cardElement = cardTemplate.cloneNode(true);
 
-    cardElement.querySelector('.card__image').src = initialCards[i].link;
-    cardElement.querySelector('.card__caption').textContent = initialCards[i].name;
+    const cardImage = cardElement.querySelector('.card__image');
+    const cardTitle = cardElement.querySelector('.card__caption');
+    const buttonLike = cardElement.querySelector('.card__button');
+    const buttonDelete = cardElement.querySelector('.card__delete');
+
+    buttonDelete.addEventListener('click', function(){
+        const listItem = buttonDelete.closest('.cards__list-item');
+        listItem.remove();
+    });
+    
+    cardImage.addEventListener('click', function() {
+        toggleModal(popupImage);
+        titlePopupOpenImage.textContent = cardTitle.textContent;
+        urlPopupOpenImage.src = cardImage.src;
+    });
+
+    cardImage.src = data.link;
+    cardTitle.textContent = data.name;
   
-    cardList.append(cardElement);
+    cardList.prepend(cardElement);
 });
-
-
-
-
-
-
-

@@ -9,9 +9,7 @@
     position: absolute;
     top: 18px;
     right: 15px;
-    z-index: 1;
     transition: 0.7s ease;
-    
 }
 
 .card__delete:hover {

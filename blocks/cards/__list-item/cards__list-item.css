@@ -13,4 +13,5 @@
     overflow: hidden;
     box-sizing: border-box;
     position: relative;
+    cursor: pointer;
 }

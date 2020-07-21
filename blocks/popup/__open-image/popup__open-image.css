@@ -1,0 +1,6 @@
+.popup__open-image {
+   display: none;
+   justify-content: center;
+   align-items: center;
+   position: relative;
+}
