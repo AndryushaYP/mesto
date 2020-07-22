@@ -1,6 +1,6 @@
 @import url(./_active/card__button_active.css);
 
-.card__button {
+.card__button-like {
     background-color: white;
     background-image: url(../../../images/like_image.svg);
     background-repeat: no-repeat;
@@ -15,7 +15,7 @@
     transition: 0.7s ease;
 }
 
-.card__button:hover {
+.card__button-like:hover {
     opacity: 0.6;
     cursor: pointer;
 }

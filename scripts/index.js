@@ -2,7 +2,6 @@ const cardTemplate = document.querySelector('#card-template').content;
 
 const mainPopup = document.querySelector('.popup');
 const popupEdit = document.querySelector('.popup_type_edit');
-
 const popupAdd = document.querySelector('.popup_type_add');
 const popupImage = document.querySelector('.popup_type_open-image');
 
@@ -20,10 +19,10 @@ const linkInput = popupAdd.querySelector('.popup__info_link');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 
+// Открытие/закрытие попапа
+
 function toggleModal (popup) {
-
     popup.classList.toggle('popup_opened');
-
 }
 
 
@@ -50,7 +49,7 @@ popupEdit.addEventListener('submit', formSubmitHandler);
 //Лайк
 
 function likeCard(evt) {
-    evt.target.classList.toggle('card__button_active');
+    evt.target.classList.toggle('card__button-like_active');
 }
     
 // Функция добавления карточки
@@ -66,7 +65,7 @@ function addCard(evt) {
     const cardTitle = cardElement.querySelector('.card__caption');
     cardTitle.textContent = titleInput.value;
 
-    const buttonLike = cardElement.querySelector('.card__button');
+    const buttonLike = cardElement.querySelector('.card__button-like');
 
     buttonLike.addEventListener('click', likeCard);
 
@@ -88,8 +87,6 @@ function addCard(evt) {
 }
 
 popupAdd.addEventListener('submit', addCard);
-
-
 
 const initialCards = [
     {
@@ -126,7 +123,7 @@ initialCards.forEach((data) => {
 
     const cardImage = cardElement.querySelector('.card__image');
     const cardTitle = cardElement.querySelector('.card__caption');
-    const buttonLike = cardElement.querySelector('.card__button');
+    const buttonLike = cardElement.querySelector('.card__button-like');
     const buttonDelete = cardElement.querySelector('.card__delete');
     buttonLike.addEventListener('click', likeCard);
     buttonDelete.addEventListener('click', function(){

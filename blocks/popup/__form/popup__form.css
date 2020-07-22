@@ -17,6 +17,7 @@
 
 @media screen and (max-width: 475px) {
     .popup__form {
-        width: 300px;
+        width: 240px;
+        height: 258px;
     }
 }
