@@ -54,9 +54,9 @@
 
     </footer>
 
-    <div class="popup">
+    <div class="popup popup_type_edit">
 
-        <form action="#" method="POST" class="popup__edit">
+        <form action="#" method="POST" class="popup__form">
 
             <h2 class="popup__title">Редактировать профиль</h2>
             <input type="text" name="name" class="popup__info popup__info_name" value="Жак-Ив Кусто">
@@ -66,7 +66,11 @@
 
         </form>
 
-        <form action="#" method="POST" class="popup__add">
+    </div>         
+
+    <div class="popup popup_type_add">
+
+        <form action="#" method="POST" class="popup__form">
 
             <h2 class="popup__title">Новое место</h2>
             <input type="text" name="name" class="popup__info popup__info_title" value="" placeholder="Название">
@@ -76,18 +80,26 @@
 
         </form>
 
-        <div class="popup__open-image">
+    </div>
+
+    <div class="popup popup_type_open-image">
+
+        <div class="popup__container">
 
             <figure class="popup__card-contain">
+
                 <img src="#" alt="" class="popup__image">
-                <figcaption class="popup__title"></figcaption>
+                <figcaption class="popup__caption"></figcaption>
+
             </figure>
               
             <button type="button" class="popup__button-close"></button>
 
         </div>
-
+        
     </div>
+
+    
 
     <template id="card-template">
 

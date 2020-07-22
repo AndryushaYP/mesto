@@ -1,7 +1,10 @@
+const cardTemplate = document.querySelector('#card-template').content;
+
 const mainPopup = document.querySelector('.popup');
-const popupEdit = mainPopup.querySelector('.popup__edit');
-const popupAdd = mainPopup.querySelector('.popup__add');
-const popupImage = mainPopup.querySelector('.popup__open-image');
+const popupEdit = document.querySelector('.popup_type_edit');
+
+const popupAdd = document.querySelector('.popup_type_add');
+const popupImage = document.querySelector('.popup_type_open-image');
 
 const buttonEdit = document.querySelector('.profile__button_edit');
 const buttonAdd = document.querySelector('.profile__button_add');
@@ -19,13 +22,12 @@ const profileSubtitle = document.querySelector('.profile__subtitle');
 
 function toggleModal (popup) {
 
-    mainPopup.classList.toggle('popup_opened');
     popup.classList.toggle('popup_opened');
 
 }
 
 
-const titlePopupOpenImage = popupImage.querySelector('.popup__title');
+const titlePopupOpenImage = popupImage.querySelector('.popup__caption');
 const urlPopupOpenImage = popupImage.querySelector('.popup__image');
 
 buttonEdit.addEventListener('click', () => toggleModal(popupEdit));
@@ -44,19 +46,29 @@ function formSubmitHandler (evt) {
 }
 
 popupEdit.addEventListener('submit', formSubmitHandler);
+
+//Лайк
+
+function likeCard(evt) {
+    evt.target.classList.toggle('card__button_active');
+}
     
 // Функция добавления карточки
 
 function addCard(evt) {
     
     evt.preventDefault();
-    const cardTemplate = document.querySelector('#card-template').content;
+    
     const cardElement = cardTemplate.cloneNode(true);
 
     const cardImage =  cardElement.querySelector('.card__image');
     cardImage.src = linkInput.value;
     const cardTitle = cardElement.querySelector('.card__caption');
     cardTitle.textContent = titleInput.value;
+
+    const buttonLike = cardElement.querySelector('.card__button');
+
+    buttonLike.addEventListener('click', likeCard);
 
     const buttonDelete = cardElement.querySelector('.card__delete');
 
@@ -76,6 +88,8 @@ function addCard(evt) {
 }
 
 popupAdd.addEventListener('submit', addCard);
+
+
 
 const initialCards = [
     {
@@ -108,14 +122,13 @@ const cardList = document.querySelector('.cards__list');
 
 initialCards.forEach((data) => {
 
-    const cardTemplate = document.querySelector('#card-template').content.querySelector('.cards__list-item');
     const cardElement = cardTemplate.cloneNode(true);
 
     const cardImage = cardElement.querySelector('.card__image');
     const cardTitle = cardElement.querySelector('.card__caption');
     const buttonLike = cardElement.querySelector('.card__button');
     const buttonDelete = cardElement.querySelector('.card__delete');
-
+    buttonLike.addEventListener('click', likeCard);
     buttonDelete.addEventListener('click', function(){
         const listItem = buttonDelete.closest('.cards__list-item');
         listItem.remove();
