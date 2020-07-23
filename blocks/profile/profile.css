@@ -22,3 +22,10 @@
         padding: 37px 19px 0;
     }
 }
+
+@media screen and (max-width: 475px) {
+    .profile__info {
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+}
