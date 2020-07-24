@@ -1,3 +1,5 @@
+const cardTemplate = document.querySelector('#card-template').content.querySelector('.cards__list-item');
+
 const mainPopup = document.querySelector('.popup');
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupAdd = document.querySelector('.popup_type_add');
@@ -52,9 +54,10 @@ function formSubmitHandler (evt) {
 
 popupEdit.addEventListener('submit', formSubmitHandler);
 
-function createCard () {
+// Создание карточки
 
-    const cardTemplate = document.querySelector('#card-template').content;
+function createCard (data) {
+
     const cardElement = cardTemplate.cloneNode(true);
 
     const cardImage = cardElement.querySelector('.card__image');
@@ -62,10 +65,9 @@ function createCard () {
     const buttonLike = cardElement.querySelector('.card__button-like');
     const buttonDelete = cardElement.querySelector('.card__delete');
 
-    cardImage.src = linkInput.value;
-    cardTitle.textContent = titleInput.value;
-
-    buttonLike.addEventListener('click', likeCard);
+    buttonLike.addEventListener('click', function(evt) {
+        evt.target.classList.toggle('card__button-like_active');
+    });
 
     buttonDelete.addEventListener('click', function(){
         const listItem = buttonDelete.closest('.cards__list-item');
@@ -78,32 +80,28 @@ function createCard () {
         urlPopupOpenImage.src = cardImage.src;
     });
 
-    cardList.prepend(cardElement);
+    cardImage.src = data.link;
+    cardTitle.textContent = data.name;
+
+    return cardElement;
 }
 
-//Лайк
+//Рендер карточки
 
-function likeCard(evt) {
-    evt.target.classList.toggle('card__button-like_active');
-}
-    
-// Функция добавления карточки
+function renderCard (data) {
+    cardList.prepend(createCard(data));
+}  
 
-function addCard(evt) {
+function addCardHandler(evt) {
     
     evt.preventDefault();
-
-    createCard();
-
+    renderCard({name: titleInput.value, link: linkInput.value});
     toggleModal(popupAdd);
 }
 
-popupAdd.addEventListener('submit', addCard);
+popupAdd.addEventListener('submit', addCardHandler);
 
 initialCards.forEach((data) => {
 
-    linkInput.value = data.link;
-    titleInput.value = data.name;
-
-    createCard();
+    renderCard(data);
 });
