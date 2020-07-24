@@ -9,7 +9,7 @@ const buttonEdit = document.querySelector('.profile__button_edit');
 const buttonAdd = document.querySelector('.profile__button_add');
 const buttonCloseFormAdd = popupAdd.querySelector('.popup__button-close');
 const buttonCloseFormEdit = popupEdit.querySelector('.popup__button-close');
-const buttonClose = popupImage.querySelector('.popup__button-close');
+const buttonCloseImage = popupImage.querySelector('.popup__button-close');
 
 const nameInput = document.querySelector('.popup__info_name');
 const professionInput = document.querySelector('.popup__info_profession');
@@ -41,7 +41,7 @@ buttonAdd.addEventListener('click', function () {
 
 buttonCloseFormAdd.addEventListener('click', () => toggleModal(popupAdd));
 buttonCloseFormEdit.addEventListener('click', () => toggleModal(popupEdit));
-buttonClose.addEventListener('click', () => toggleModal(popupImage));
+buttonCloseImage.addEventListener('click', () => toggleModal(popupImage));
 
 function formSubmitHandler (evt) {
 
