@@ -7,7 +7,45 @@ const myObject = {
     errorClass: 'popup__error_visible'
 }
 
-//Проверка валидности полей
+//Показать ошибку
+
+const showInputError = (formElement, inputElement, errorMessage, {inputErrorClass, errorClass}) => {
+
+    const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
+
+    inputElement.classList.add(inputErrorClass);
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add(errorClass);
+}
+
+//Скрыть ошибку
+
+const hideInputError = (formElement, inputElement, {inputErrorClass, errorClass}) => {
+
+    const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
+
+    inputElement.classList.remove(inputErrorClass);
+    errorElement.textContent = '';
+    errorElement.classList.remove(errorClass);
+}
+
+// Проверка валдиности полей
+
+const checkInputValidity = (formElement, inputElement, {inputErrorClass, errorClass}) => {
+    
+        if(!inputElement.validity.valid) {
+
+            showInputError(formElement, inputElement, inputElement.validationMessage, {inputErrorClass, errorClass});
+    
+        } else {
+
+            hideInputError(formElement, inputElement, {inputErrorClass, errorClass});
+
+    }        
+}
+
+
+//Добавим обработчик полям
 
 const setEventListener = (formElement, {inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass}) => {
 
@@ -15,23 +53,15 @@ const setEventListener = (formElement, {inputSelector, submitButtonSelector, ina
 
     const buttonSubmit = formElement.querySelector(submitButtonSelector);
 
-    console.log(inputList);
+    toggleButtonState(inputList, buttonSubmit, {inactiveButtonClass});
 
-        inputList.forEach((inputElement) => {
+    inputList.forEach((inputElement) => {
+
         inputElement.addEventListener('input', (evt) => {
-            const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
-            console.log(errorElement);
-            if(inputElement.validity.valid) {
-                inputElement.classList.remove(inputErrorClass);
-                errorElement.classList.remove(errorClass);
-                errorElement.textContent = '';
-            } else {
-                inputElement.classList.add(inputErrorClass);
-                errorElement.classList.add(errorClass);
-                errorElement.textContent = inputElement.validationMessage;
-            }
             
+            checkInputValidity(formElement, inputElement, {inputErrorClass, errorClass});
             toggleButtonState(inputList, buttonSubmit, {inactiveButtonClass});
+
         })
     })
 
@@ -40,31 +70,36 @@ const setEventListener = (formElement, {inputSelector, submitButtonSelector, ina
 // Невалидность поля
 
 const hasInvalidInput = (inputList) => {
+
     return inputList.some((inputElement) => {
+
         return !inputElement.validity.valid;
-      });
-    }
+
+    });
+}
 
 
 //Валидация кнопки
 
 const toggleButtonState = (inputList, buttonSubmit, {inactiveButtonClass}) => {
 
-            if(hasInvalidInput(inputList)) {
-                buttonSubmit.classList.add(inactiveButtonClass);
-                buttonSubmit.disabled = true;
+    if(hasInvalidInput(inputList)) {
+
+        buttonSubmit.classList.add(inactiveButtonClass);
+        buttonSubmit.disabled = true;
                 
-            } else {
-                buttonSubmit.classList.remove(inactiveButtonClass);
-                buttonSubmit.disabled = false;
-            }
-        }
+    } else {
+
+        buttonSubmit.classList.remove(inactiveButtonClass);
+        buttonSubmit.disabled = false;
+
+    }
+}
 
 
 //Включение валидации
 
-const enableValidation = ({formSelector, inputSelector, submitButtonSelector, 
-    inactiveButtonClass, inputErrorClass, errorClass}) => {
+const enableValidation = ({formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass}) => {
 
     const formList = Array.from(document.querySelectorAll(formSelector));
 
