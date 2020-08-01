@@ -11,10 +11,10 @@ const buttonCloseFormAdd = popupAdd.querySelector('.popup__button-close');
 const buttonCloseFormEdit = popupEdit.querySelector('.popup__button-close');
 const buttonCloseImage = popupImage.querySelector('.popup__button-close');
 
-const nameInput = document.querySelector('.popup__info_name');
-const professionInput = document.querySelector('.popup__info_profession');
-const titleInput = popupAdd.querySelector('.popup__info_title');
-const linkInput = popupAdd.querySelector('.popup__info_link');
+const nameInput = document.querySelector('.popup__input_name');
+const professionInput = document.querySelector('.popup__input_profession');
+const titleInput = popupAdd.querySelector('.popup__input_title');
+const linkInput = popupAdd.querySelector('.popup__input_link');
 
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');

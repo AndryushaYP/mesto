@@ -1,4 +1,6 @@
-.popup__info {
+@import url(./_type_error/popup__input_type_error.css);
+
+.popup__input {
     width: 100%;
     max-width: 358px;
     border: none;
@@ -10,7 +12,7 @@
 }
 
 @media screen and (max-width: 475px) {
-    .popup__info {
+    .popup__input {
         font-size: 12px;
     }
 }
