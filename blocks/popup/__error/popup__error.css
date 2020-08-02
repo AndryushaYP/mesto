@@ -2,8 +2,4 @@
 
 .popup__error {
     display: none;
-    margin: 0;
-    font-size: 12px;
-    line-height: 15px;
-    color: #FF0000;
 }

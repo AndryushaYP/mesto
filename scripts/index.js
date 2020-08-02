@@ -21,25 +21,29 @@ const profileSubtitle = document.querySelector('.profile__subtitle');
 const titlePopupOpenImage = popupImage.querySelector('.popup__caption');
 const urlPopupOpenImage = popupImage.querySelector('.popup__image');
 
-////////////////////////////////////////////////////////
-
-
-
-mainPopup.forEach((popupElement) => {
-    popupElement.addEventListener('click', (evt) => {
-        if(popupElement.classList.contains('popup_opened') && !evt.target.closest('.popup__form') && !evt.target.closest('.popup__image')) {
-            popupElement.classList.remove('popup_opened');
-        }
-    })
-})
-
-////////////////////////////////////////////////////////
-
 const cardList = document.querySelector('.cards__list');
 
 function toggleModal (popup) {
 
     popup.classList.toggle('popup_opened');
+
+    document.addEventListener('keydown', (evt) => {
+
+        if(evt.key === 'Escape' && popup.classList.contains('popup_opened')) {
+            toggleModal(popup);
+
+        }
+
+    })
+
+    popup.addEventListener('click', (evt) => {
+
+        if(popup.classList.contains('popup_opened') && !evt.target.closest('.popup__form') && !evt.target.closest('.popup__image')) {
+            toggleModal(popup);
+
+        }
+
+    })
 
 }
 
