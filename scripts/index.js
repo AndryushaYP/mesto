@@ -23,6 +23,8 @@ const urlPopupOpenImage = popupImage.querySelector('.popup__image');
 
 const cardList = document.querySelector('.cards__list');
 
+// Ролан, здравствуйте! Prettier установил по гайду на ютубу, но судя по тому что мой "код" ничуть не преобразился - я сделал что-то не так)) Сейчас разбираюсь с этим)
+
 const closeModalPressEsc = (evt) => {
 
     if(evt.key === 'Escape') {
