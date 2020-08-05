@@ -1,145 +1,123 @@
-const cardTemplate = document.querySelector('#card-template').content.querySelector('.cards__list-item');
+const cardTemplate = document
+  .querySelector("#card-template")
+  .content.querySelector(".cards__list-item");
 
-const popupList = document.querySelectorAll('.popup');
-const popupEdit = document.querySelector('.popup_type_edit');
-const popupAdd = document.querySelector('.popup_type_add');
-const popupImage = document.querySelector('.popup_type_open-image');
+const popupList = document.querySelectorAll(".popup");
+const popupEdit = document.querySelector(".popup_type_edit");
+const popupAdd = document.querySelector(".popup_type_add");
+const popupImage = document.querySelector(".popup_type_open-image");
 
-const buttonEdit = document.querySelector('.profile__button_edit');
-const buttonAdd = document.querySelector('.profile__button_add');
-const buttonCloseFormAdd = popupAdd.querySelector('.popup__button-close');
-const buttonCloseFormEdit = popupEdit.querySelector('.popup__button-close');
-const buttonCloseImage = popupImage.querySelector('.popup__button-close');
+const buttonEdit = document.querySelector(".profile__button_edit");
+const buttonAdd = document.querySelector(".profile__button_add");
+const buttonCloseFormAdd = popupAdd.querySelector(".popup__button-close");
+const buttonCloseFormEdit = popupEdit.querySelector(".popup__button-close");
+const buttonCloseImage = popupImage.querySelector(".popup__button-close");
 
-const nameInput = document.querySelector('.popup__input_name');
-const professionInput = document.querySelector('.popup__input_profession');
-const titleInput = popupAdd.querySelector('.popup__input_title');
-const linkInput = popupAdd.querySelector('.popup__input_link');
+const nameInput = document.querySelector(".popup__input_name");
+const professionInput = document.querySelector(".popup__input_profession");
+const titleInput = popupAdd.querySelector(".popup__input_title");
+const linkInput = popupAdd.querySelector(".popup__input_link");
 
-const profileTitle = document.querySelector('.profile__title');
-const profileSubtitle = document.querySelector('.profile__subtitle');
-const titlePopupOpenImage = popupImage.querySelector('.popup__caption');
-const urlPopupOpenImage = popupImage.querySelector('.popup__image');
+const profileTitle = document.querySelector(".profile__title");
+const profileSubtitle = document.querySelector(".profile__subtitle");
+const titlePopupOpenImage = popupImage.querySelector(".popup__caption");
+const urlPopupOpenImage = popupImage.querySelector(".popup__image");
 
-const cardList = document.querySelector('.cards__list');
-
-// Ролан, здравствуйте! Prettier установил по гайду на ютубу, но судя по тому что мой "код" ничуть не преобразился - я сделал что-то не так)) Сейчас разбираюсь с этим)
+const cardList = document.querySelector(".cards__list");
 
 const closeModalPressEsc = (evt) => {
+  if (evt.key === "Escape") {
+    popupList.forEach((popupElement) => {
+      modalClose(popupElement);
+    });
+  }
+};
 
-    if(evt.key === 'Escape') {
-
-        popupList.forEach((popupElement) => {
-            
-            modalClose(popupElement);
-
-        })
-
+popupList.forEach((popupElement) => {
+  popupElement.addEventListener("click", (evt) => {
+    if (evt.target === evt.currentTarget) {
+      modalClose(popupElement);
     }
-
-}
-
-const modalOpen = (popup) => {
-
-    popup.classList.add('popup_opened');
-
-    if(popup.classList.contains('popup_opened')) {
-
-        document.addEventListener('keydown', closeModalPressEsc);
-
-        popup.addEventListener('click', (evt) => {
-
-            if(!evt.target.closest('.popup__form') && !evt.target.closest('.popup__image')) {
-
-                modalClose(popup);
-
-            }
-        })
-    }
-}
-
-const modalClose = (popup) => {
-
-    popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', closeModalPressEsc);
-
-}
-
-
-buttonEdit.addEventListener('click', () => modalOpen(popupEdit));
-
-buttonAdd.addEventListener('click', function () {
-
-    modalOpen(popupAdd);
-    popupAdd.querySelector('.popup__button').disabled = true;
-    popupAdd.querySelector('.popup__button').classList.add('popup__button_disabled');
-
+  });
 });
 
-buttonCloseFormAdd.addEventListener('click', () => modalClose(popupAdd));
-buttonCloseFormEdit.addEventListener('click', () => modalClose(popupEdit));
-buttonCloseImage.addEventListener('click', () => modalClose(popupImage));
+const modalOpen = (popup) => {
+  popup.classList.add("popup_opened");
+  document.addEventListener("keydown", closeModalPressEsc);
+};
 
-function formSubmitHandler (evt) {
+const modalClose = (popup) => {
+  popup.classList.remove("popup_opened");
+  document.removeEventListener("keydown", closeModalPressEsc);
+};
 
-    evt.preventDefault();
-    profileTitle.textContent = nameInput.value;
-    profileSubtitle.textContent = professionInput.value;
-    modalClose(popupEdit);
+buttonEdit.addEventListener("click", () => modalOpen(popupEdit));
 
+buttonAdd.addEventListener("click", function () {
+  modalOpen(popupAdd);
+});
+
+buttonCloseFormAdd.addEventListener("click", () => modalClose(popupAdd));
+buttonCloseFormEdit.addEventListener("click", () => modalClose(popupEdit));
+buttonCloseImage.addEventListener("click", () => modalClose(popupImage));
+
+function formSubmitHandler(evt) {
+  evt.preventDefault();
+  profileTitle.textContent = nameInput.value;
+  profileSubtitle.textContent = professionInput.value;
+  modalClose(popupEdit);
 }
 
-popupEdit.addEventListener('submit', formSubmitHandler);
+popupEdit.addEventListener("submit", formSubmitHandler);
 
 // Создание карточки
 
-function createCard (data) {
+function createCard(data) {
+  const cardElement = cardTemplate.cloneNode(true);
 
-    const cardElement = cardTemplate.cloneNode(true);
+  const cardImage = cardElement.querySelector(".card__image");
+  const cardTitle = cardElement.querySelector(".card__caption");
+  const buttonLike = cardElement.querySelector(".card__button-like");
+  const buttonDelete = cardElement.querySelector(".card__delete");
 
-    const cardImage = cardElement.querySelector('.card__image');
-    const cardTitle = cardElement.querySelector('.card__caption');
-    const buttonLike = cardElement.querySelector('.card__button-like');
-    const buttonDelete = cardElement.querySelector('.card__delete');
+  buttonLike.addEventListener("click", function (evt) {
+    evt.target.classList.toggle("card__button-like_active");
+  });
 
-    buttonLike.addEventListener('click', function(evt) {
-        evt.target.classList.toggle('card__button-like_active');
-    });
+  buttonDelete.addEventListener("click", function () {
+    const listItem = buttonDelete.closest(".cards__list-item");
+    listItem.remove();
+  });
 
-    buttonDelete.addEventListener('click', function(){
-        const listItem = buttonDelete.closest('.cards__list-item');
-        listItem.remove();
-    });
-    
-    cardImage.addEventListener('click', function() {
-        modalOpen(popupImage);
-        titlePopupOpenImage.textContent = cardTitle.textContent;
-        urlPopupOpenImage.src = cardImage.src;
-    });
+  cardImage.addEventListener("click", function () {
+    modalOpen(popupImage);
+    titlePopupOpenImage.textContent = cardTitle.textContent;
+    urlPopupOpenImage.src = cardImage.src;
+  });
 
-    cardImage.src = data.link;
-    cardTitle.textContent = data.name;
+  cardImage.src = data.link;
+  cardTitle.textContent = data.name;
 
-    return cardElement;
+  return cardElement;
 }
 
 //Рендер карточки
 
-function renderCard (data) {
-    cardList.prepend(createCard(data));
-}  
-
-function addCardHandler(evt) {
-    
-    evt.preventDefault();
-    renderCard({name: titleInput.value, link: linkInput.value});
-    modalClose(popupAdd);
-    document.forms.add.reset();
+function renderCard(data) {
+  cardList.prepend(createCard(data));
 }
 
-popupAdd.addEventListener('submit', addCardHandler);
+function addCardHandler(evt) {
+  evt.preventDefault();
+  renderCard({ name: titleInput.value, link: linkInput.value });
+  modalClose(popupAdd);
+  popupAdd.querySelector(".popup__button").disabled = true;
+  popupAdd.querySelector(".popup__button").classList.add("popup__button_disabled");
+  document.forms.add.reset();
+}
+
+popupAdd.addEventListener("submit", addCardHandler);
 
 initialCards.forEach((data) => {
-
-    renderCard(data);
+  renderCard(data);
 });
