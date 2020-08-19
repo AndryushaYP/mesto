@@ -38,7 +38,7 @@
     </footer>
 
     <div class="popup popup_type_edit">
-      <form action="#" method="POST" class="popup__form" novalidate>
+      <form action="#" method="POST" class="popup__form popup__form_type_edit" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
 
         <label class="popup__label">
@@ -73,7 +73,7 @@
     </div>
 
     <div class="popup popup_type_add">
-      <form action="#" method="POST" class="popup__form" name="add" novalidate>
+      <form action="#" method="POST" class="popup__form popup__form_type_add" name="add" novalidate>
         <h2 class="popup__title">Новое место</h2>
 
         <label class="popup__label">
@@ -127,8 +127,7 @@
       </li>
     </template>
 
-    <script src="scripts/validate.js"></script>
-    <script src="scripts/initial-cards.js"></script>
-    <script src="scripts/index.js"></script>
+    <script src="scripts/index.js" type="module"></script>
+    
   </body>
 </html>
