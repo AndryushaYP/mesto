@@ -21,16 +21,14 @@ import {
   profileSubtitle,
 } from "./constants.js";
 
-import { modalOpen, modalClose } from "./utils.js";
+import { modalOpen, modalClose, renderCard} from "./utils.js";
 
 import { FormValidator } from "./FormValidator.js";
 
 import { Card } from "./card.js";
 
 initialCards.forEach((item) => {
-  const card = new Card(item, ".cards__list-item");
-  const cardElement = card.generateCard();
-  cardList.prepend(cardElement);
+  renderCard(item, "#card-template");
 });
 
 const editFormValidator = new FormValidator(editForm, myObject);
@@ -64,9 +62,7 @@ popupEdit.addEventListener("submit", formSubmitHandler);
 
 function addCardHandler(evt) {
   evt.preventDefault();
-  const card = new Card({ name: titleInput.value, link: linkInput.value }, ".cards__list-item");
-  const cardElement = card.generateCard();
-  cardList.prepend(cardElement);
+  renderCard({ name: titleInput.value, link: linkInput.value }, "#card-template");
   modalClose(popupAdd);
   popupAdd.querySelector(".popup__button").disabled = true;
   popupAdd.querySelector(".popup__button").classList.add("popup__button_disabled");

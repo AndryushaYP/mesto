@@ -1,4 +1,6 @@
 import { popupList } from "./constants.js";
+import { Card } from "./card.js";
+import { cardList } from "./constants.js";
 
 export const modalOpen = (popup) => {
   popup.classList.add("popup_opened");
@@ -16,4 +18,10 @@ export const closeModalPressEsc = (evt) => {
       modalClose(popupElement);
     });
   }
+};
+
+export const renderCard = (config, elCard) => {
+  const card = new Card(config, elCard);
+  const cardElement = card.generateCard();
+  cardList.prepend(cardElement);
 };
