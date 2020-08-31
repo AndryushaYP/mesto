@@ -1,7 +1,6 @@
 import {
   myObject,
   initialCards,
-  cardList,
   editForm,
   addForm,
   popupList,
@@ -21,15 +20,27 @@ import {
   profileSubtitle,
 } from "./constants.js";
 
-import { modalOpen, modalClose, renderCard} from "./utils.js";
+import { modalOpen, modalClose } from "./utils.js";
 
 import { FormValidator } from "./FormValidator.js";
 
 import { Card } from "./card.js";
+import { Section } from "./section.js";
+import { Popup } from "./popup.js";
 
-initialCards.forEach((item) => {
-  renderCard(item, "#card-template");
-});
+const сardList = new Section(
+  {
+    data: initialCards,
+    renderer: (item) => {
+      const card = new Card(item, "#card-template");
+      const cardElement = card.generateCard();
+      сardList.addItems(cardElement);
+    },
+  },
+  ".cards__list"
+);
+
+сardList.renderItems();
 
 const editFormValidator = new FormValidator(editForm, myObject);
 const addFormValidator = new FormValidator(addForm, myObject);
@@ -44,10 +55,13 @@ popupList.forEach((popupElement) => {
   });
 });
 
-buttonEdit.addEventListener("click", () => modalOpen(popupEdit));
-buttonAdd.addEventListener("click", () => modalOpen(popupAdd));
+const openPopupEdit = new Popup(popupEdit);
+buttonEdit.addEventListener("click", () => openPopupEdit.open());
 
-buttonCloseFormAdd.addEventListener("click", () => modalClose(popupAdd));
+const openPopupAdd = new Popup(popupAdd);
+buttonAdd.addEventListener("click", () => openPopupAdd.open());
+
+buttonCloseFormAdd.addEventListener("click", () => openPopupAdd.setEventListeners());
 buttonCloseFormEdit.addEventListener("click", () => modalClose(popupEdit));
 buttonCloseImage.addEventListener("click", () => modalClose(popupImage));
 
@@ -62,7 +76,12 @@ popupEdit.addEventListener("submit", formSubmitHandler);
 
 function addCardHandler(evt) {
   evt.preventDefault();
-  renderCard({ name: titleInput.value, link: linkInput.value }, "#card-template");
+
+  const cardsContainer = document.querySelector(".cards__list");
+  const card = new Card({ name: titleInput.value, link: linkInput.value }, "#card-template");
+  const cardElement = card.generateCard();
+  cardsContainer.prepend(cardElement);
+
   modalClose(popupAdd);
   popupAdd.querySelector(".popup__button").disabled = true;
   popupAdd.querySelector(".popup__button").classList.add("popup__button_disabled");
