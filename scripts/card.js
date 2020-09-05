@@ -2,9 +2,10 @@ import { titlePopupOpenImage, urlPopupOpenImage, popupImage } from "./constants.
 import { modalOpen } from "./utils.js";
 
 export class Card {
-  constructor(data, cardSelector) {
+  constructor({ data, handleCardClick }, cardSelector) {
     this._name = data.name;
     this._link = data.link;
+    this._handleCardClick = handleCardClick;
     this._cardSelector = cardSelector;
   }
 
@@ -39,9 +40,9 @@ export class Card {
     });
 
     this._element.querySelector(".card__image").addEventListener("click", () => {
-      modalOpen(popupImage);
-      titlePopupOpenImage.textContent = this._name;
-      urlPopupOpenImage.src = this._link;
+
+      this._handleCardClick({name: this._name, link: this._link})
+      
     });
   }
 }
