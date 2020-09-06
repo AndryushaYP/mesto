@@ -15,4 +15,4 @@
 * ООП
 * Webpack
 
-[https://andryushayp.github.io/mesto/]
+[https://andryushayp.github.io/mesto/src/]
