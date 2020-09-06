@@ -1,5 +1,5 @@
 import { Popup } from "./popup.js";
-import { titlePopupOpenImage, urlPopupOpenImage } from "./constants.js";
+import { titlePopupOpenImage, urlPopupOpenImage } from "../scripts/constants.js";
 
 export class PopupWithImage extends Popup {
   constructor(popupSelector) {

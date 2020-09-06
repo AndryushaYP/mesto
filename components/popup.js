@@ -1,4 +1,4 @@
-import { buttonClose } from "./constants.js";
+import { buttonClose } from "../scripts/constants.js";
 
 export class Popup {
   constructor(popupSelector) {

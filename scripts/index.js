@@ -3,7 +3,6 @@ import {
   initialCards,
   editForm,
   addForm,
-  popupList,
   popupEdit,
   popupAdd,
   popupImage,
@@ -15,17 +14,18 @@ import {
   profileSubtitle,
 } from "./constants.js";
 
-import { FormValidator } from "./FormValidator.js";
+import { FormValidator } from "../components/FormValidator.js";
+import { Card } from "../components/card.js";
+import { Section } from "../components/section.js";
+import { PopupWithImage } from "../components/popupWithImage.js";
+import { PopupWithForm } from "../components/popupWithForm.js";
+import { UserInfo } from "../components/UserInfo.js";
 
-import { Card } from "./card.js";
-import { Section } from "./section.js";
-import { PopupWithImage } from "./popupWithImage.js";
-import { PopupWithForm } from "./popupWithForm.js";
-import { UserInfo } from "./UserInfo.js";
+const editFormValidator = new FormValidator(editForm, myObject);
+const addFormValidator = new FormValidator(addForm, myObject);
+editFormValidator.enableValidation();
+addFormValidator.enableValidation();
 
-// Создаём экземпляр класса section
-
-const imagePopup = new PopupWithImage(popupImage);
 const сardList = new Section(
   {
     data: initialCards,
@@ -45,37 +45,12 @@ const сardList = new Section(
   },
   ".cards__list"
 );
-// рендерим карточки
-сardList.renderItems();
-
-//Экземпляр класаа картинка
-
-////////////////
-
-const editFormValidator = new FormValidator(editForm, myObject);
-const addFormValidator = new FormValidator(addForm, myObject);
-editFormValidator.enableValidation();
-addFormValidator.enableValidation();
-
-const userInfo = new UserInfo({
-  nameSelector: profileTitle,
-  profileInfoSelector: profileSubtitle,
-});
 
 const openPopupEdit = new PopupWithForm({
   popupSelector: popupEdit,
   formSubmitHandler: (formData) => {
     userInfo.setUserInfo(formData);
   },
-});
-
-buttonEdit.addEventListener("click", () => {
-  const currentUserInfo = userInfo.getUserInfo();
-
-  nameInput.value = currentUserInfo.name;
-  professionInput.value = currentUserInfo.profession;
-
-  openPopupEdit.open();
 });
 
 const openPopupAdd = new PopupWithForm({
@@ -96,8 +71,26 @@ const openPopupAdd = new PopupWithForm({
   },
 });
 
+const imagePopup = new PopupWithImage(popupImage);
+
+const userInfo = new UserInfo({
+  nameSelector: profileTitle,
+  profileInfoSelector: profileSubtitle,
+});
+
+buttonEdit.addEventListener("click", () => {
+  const currentUserInfo = userInfo.getUserInfo();
+
+  nameInput.value = currentUserInfo.name;
+  professionInput.value = currentUserInfo.profession;
+
+  openPopupEdit.open();
+});
+
 buttonAdd.addEventListener("click", () => openPopupAdd.open());
 
 openPopupAdd.setEventListeners();
 openPopupEdit.setEventListeners();
 imagePopup.setEventListeners();
+
+сardList.renderItems();
