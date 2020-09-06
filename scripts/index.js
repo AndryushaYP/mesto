@@ -20,6 +20,7 @@ import { Section } from "../components/section.js";
 import { PopupWithImage } from "../components/popupWithImage.js";
 import { PopupWithForm } from "../components/popupWithForm.js";
 import { UserInfo } from "../components/UserInfo.js";
+import '../pages/index.css';
 
 const editFormValidator = new FormValidator(editForm, myObject);
 const addFormValidator = new FormValidator(addForm, myObject);
