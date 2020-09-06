@@ -1,6 +1,3 @@
-import { titlePopupOpenImage, urlPopupOpenImage, popupImage } from "./constants.js";
-import { modalOpen } from "./utils.js";
-
 export class Card {
   constructor({ data, handleCardClick }, cardSelector) {
     this._name = data.name;
@@ -40,9 +37,7 @@ export class Card {
     });
 
     this._element.querySelector(".card__image").addEventListener("click", () => {
-
-      this._handleCardClick({name: this._name, link: this._link})
-      
+      this._handleCardClick({ name: this._name, link: this._link });
     });
   }
 }

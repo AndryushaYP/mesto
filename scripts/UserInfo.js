@@ -4,13 +4,15 @@ export class UserInfo {
     this._profileinfoSelector = profileInfoSelector;
   }
 
-  getUserInfo(formData) {
-    formData.name = this._nameSelector.textContent;
-    formData.profession = this._profileinfoSelector.textContent;
+  getUserInfo() {
+    return {
+      name: this._nameSelector.textContent,
+      profession: this._profileinfoSelector.textContent,
+    };
   }
 
-  setUserInfo(formData) {
-      this._nameSelector.textContent = formData.name;
-      this._profileinfoSelector.textContent = formData.profession;
+  setUserInfo({ name, profession }) {
+    this._nameSelector.textContent = name;
+    this._profileinfoSelector.textContent = profession;
   }
 }
