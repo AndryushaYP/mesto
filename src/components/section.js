@@ -6,12 +6,11 @@ export class Section {
   }
 
   addItem(element, isArray) {
-    if(isArray){
+    if (isArray) {
       this._container.append(element);
     } else {
       this._container.prepend(element);
     }
-    
   }
 
   renderItems() {

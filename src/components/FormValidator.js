@@ -53,9 +53,9 @@ export class FormValidator {
     });
   }
 
-  buttonSubmitBlock(buttonSubmit) {
-    buttonSubmit.classList.add(this._inactiveButtonClass);
-      buttonSubmit.disabled = true;
+  buttonSubmitBlock(buttonEl) {
+    buttonEl.classList.add(this._inactiveButtonClass);
+    buttonEl.disabled = true;
   }
 
   _toggleButtonState(inputList, buttonSubmit) {

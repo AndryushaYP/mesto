@@ -7,7 +7,8 @@ export const popupEdit = document.querySelector(".popup_type_edit");
 export const popupAdd = document.querySelector(".popup_type_add");
 export const popupImage = document.querySelector(".popup_type_open-image");
 //Кнопки
-export const buttonSubmit = document.querySelector('.popup__button');
+export const buttonSubmitEdit = popupEdit.querySelector('.popup__button');
+export const buttonSubmitAdd = popupAdd.querySelector('.popup__button');
 export const buttonEdit = document.querySelector(".profile__button_edit");
 export const buttonAdd = document.querySelector(".profile__button_add");
 //Поля

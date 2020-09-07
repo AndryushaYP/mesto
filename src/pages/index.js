@@ -12,7 +12,8 @@ import {
   professionInput,
   profileTitle,
   profileSubtitle,
-  buttonSubmit
+  buttonSubmitEdit,
+  buttonSubmitAdd,
 } from "../utils/constants.js";
 
 import { FormValidator } from "../components/FormValidator.js";
@@ -21,59 +22,54 @@ import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { UserInfo } from "../components/UserInfo.js";
-import '../pages/index.css';
+import "../pages/index.css";
 
 const editFormValidator = new FormValidator(editForm, myObject);
 const addFormValidator = new FormValidator(addForm, myObject);
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
 
+const createCard = (item) => {
+  const card = new Card(
+    {
+      data: item,
+      handleCardClick: (cardData) => {
+        imagePopup.open(cardData);
+      },
+    },
+    "#card-template"
+  );
 
-
+  const cardElement = card.generateCard();
+  cardList.addItem(cardElement);
+};
 
 const cardList = new Section(
   {
     data: initialCards,
+
     renderer: (item) => {
-      const card = new Card(
-        {
-          data: item,
-          handleCardClick: (cardData) => {
-            imagePopup.open(cardData);
-          },
-        },
-        "#card-template"
-      );
-      const cardElement = card.generateCard();
-      cardList.addItem(cardElement);
+      createCard(item);
     },
   },
   ".cards__list"
 );
 
-const openPopupEdit = new PopupWithForm({
+const popupEditForm = new PopupWithForm({
   popupSelector: popupEdit,
   formSubmitHandler: (formData) => {
     userInfo.setUserInfo(formData);
-    openPopupEdit.close();
+    popupEditForm.close();
+    editFormValidator.buttonSubmitBlock(buttonSubmitEdit);
   },
 });
 
-const openPopupAdd = new PopupWithForm({
+const popupAddForm = new PopupWithForm({
   popupSelector: popupAdd,
-  formSubmitHandler: (formData) => {
-    const card = new Card(
-      {
-        data: formData,
-        handleCardClick: (formData) => {
-          imagePopup.open(formData);
-        },
-      },
-      "#card-template"
-    );
-    const cardElement = card.generateCard();
-    cardList.addItem(cardElement);
-    openPopupAdd.close();
+  formSubmitHandler: (item) => {
+    addFormValidator.buttonSubmitBlock(buttonSubmitAdd);
+    createCard(item);
+    popupAddForm.close();
   },
 });
 
@@ -90,13 +86,15 @@ buttonEdit.addEventListener("click", () => {
   nameInput.value = currentUserInfo.name;
   professionInput.value = currentUserInfo.profession;
 
-  openPopupEdit.open();
+  popupEditForm.open();
 });
 
-buttonAdd.addEventListener("click", () => openPopupAdd.open());
+buttonAdd.addEventListener("click", () => {
+  popupAddForm.open();
+});
 
-openPopupAdd.setEventListeners();
-openPopupEdit.setEventListeners();
+popupAddForm.setEventListeners();
+popupEditForm.setEventListeners();
 imagePopup.setEventListeners();
 
 cardList.renderItems();

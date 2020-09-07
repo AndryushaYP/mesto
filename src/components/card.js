@@ -17,27 +17,28 @@ export class Card {
 
   generateCard() {
     this._element = this._getTemplate();
-    this._element.querySelector(".card__image").src = this._link;
-    this._element.querySelector(".card__image").alt = this._name;
+    const cardImage = this._element.querySelector(".card__image");
+    cardImage.src = this._link;
+    cardImage.alt = this._name;
     this._element.querySelector(".card__caption").textContent = this._name;
-    this._element.querySelector(".card__button-like");
+    const buttonLike = this._element.querySelector(".card__button-like");
     const buttonDelete = this._element.querySelector(".card__delete");
-    this._setEventListener(buttonDelete);
+    this._setEventListener(buttonDelete, cardImage, buttonLike);
 
     return this._element;
   }
 
-  _setEventListener(buttonDelete) {
-    this._element.querySelector(".card__button-like").addEventListener("click", function (evt) {
+  _setEventListener(buttonDelete, cardImage, buttonLike) {
+    buttonLike.addEventListener("click", function (evt) {
       evt.target.classList.toggle("card__button-like_active");
     });
 
-    this._element.querySelector(".card__delete").addEventListener("click", function () {
+    buttonDelete.addEventListener("click", function () {
       const listItem = buttonDelete.closest(".cards__list-item");
       listItem.remove();
     });
 
-    this._element.querySelector(".card__image").addEventListener("click", () => {
+    cardImage.addEventListener("click", () => {
       this._handleCardClick({ name: this._name, link: this._link });
     });
   }
