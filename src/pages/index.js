@@ -12,13 +12,14 @@ import {
   professionInput,
   profileTitle,
   profileSubtitle,
-} from "./constants.js";
+  buttonSubmit
+} from "../utils/constants.js";
 
 import { FormValidator } from "../components/FormValidator.js";
-import { Card } from "../components/card.js";
-import { Section } from "../components/section.js";
-import { PopupWithImage } from "../components/popupWithImage.js";
-import { PopupWithForm } from "../components/popupWithForm.js";
+import { Card } from "../components/Card.js";
+import { Section } from "../components/Section.js";
+import { PopupWithImage } from "../components/PopupWithImage.js";
+import { PopupWithForm } from "../components/PopupWithForm.js";
 import { UserInfo } from "../components/UserInfo.js";
 import '../pages/index.css';
 
@@ -27,7 +28,10 @@ const addFormValidator = new FormValidator(addForm, myObject);
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
 
-const сardList = new Section(
+
+
+
+const cardList = new Section(
   {
     data: initialCards,
     renderer: (item) => {
@@ -41,7 +45,7 @@ const сardList = new Section(
         "#card-template"
       );
       const cardElement = card.generateCard();
-      сardList.addItems(cardElement);
+      cardList.addItem(cardElement);
     },
   },
   ".cards__list"
@@ -51,13 +55,13 @@ const openPopupEdit = new PopupWithForm({
   popupSelector: popupEdit,
   formSubmitHandler: (formData) => {
     userInfo.setUserInfo(formData);
+    openPopupEdit.close();
   },
 });
 
 const openPopupAdd = new PopupWithForm({
   popupSelector: popupAdd,
   formSubmitHandler: (formData) => {
-    const cardsContainer = document.querySelector(".cards__list");
     const card = new Card(
       {
         data: formData,
@@ -68,7 +72,8 @@ const openPopupAdd = new PopupWithForm({
       "#card-template"
     );
     const cardElement = card.generateCard();
-    cardsContainer.prepend(cardElement);
+    cardList.addItem(cardElement);
+    openPopupAdd.close();
   },
 });
 
@@ -94,4 +99,4 @@ openPopupAdd.setEventListeners();
 openPopupEdit.setEventListeners();
 imagePopup.setEventListeners();
 
-сardList.renderItems();
+cardList.renderItems();

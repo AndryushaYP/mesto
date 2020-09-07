@@ -18,6 +18,7 @@ export class Card {
   generateCard() {
     this._element = this._getTemplate();
     this._element.querySelector(".card__image").src = this._link;
+    this._element.querySelector(".card__image").alt = this._name;
     this._element.querySelector(".card__caption").textContent = this._name;
     this._element.querySelector(".card__button-like");
     const buttonDelete = this._element.querySelector(".card__delete");

@@ -1,5 +1,3 @@
-import { buttonClose } from "../scripts/constants.js";
-
 export class Popup {
   constructor(popupSelector) {
     this._popupSelector = popupSelector;
@@ -30,8 +28,8 @@ export class Popup {
   }
 
   setEventListeners() {
-    buttonClose.forEach((btnEl) => {
-      btnEl.addEventListener("click", () => this.close());
-    });
+    this._popupSelector
+      .querySelector(".popup__button-close")
+      .addEventListener("click", () => this.close());
   }
 }

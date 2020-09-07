@@ -5,8 +5,13 @@ export class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  addItems(element) {
-    this._container.append(element);
+  addItem(element, isArray) {
+    if(isArray){
+      this._container.append(element);
+    } else {
+      this._container.prepend(element);
+    }
+    
   }
 
   renderItems() {

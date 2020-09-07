@@ -7,12 +7,9 @@ export const popupEdit = document.querySelector(".popup_type_edit");
 export const popupAdd = document.querySelector(".popup_type_add");
 export const popupImage = document.querySelector(".popup_type_open-image");
 //Кнопки
-export const buttonClose = document.querySelectorAll(".popup__button-close");
+export const buttonSubmit = document.querySelector('.popup__button');
 export const buttonEdit = document.querySelector(".profile__button_edit");
 export const buttonAdd = document.querySelector(".profile__button_add");
-export const buttonCloseFormAdd = popupAdd.querySelector(".popup__button-close");
-export const buttonCloseFormEdit = popupEdit.querySelector(".popup__button-close");
-export const buttonCloseImage = popupImage.querySelector(".popup__button-close");
 //Поля
 export const nameInput = document.querySelector(".popup__input_name");
 export const professionInput = document.querySelector(".popup__input_profession");
