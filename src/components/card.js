@@ -1,8 +1,13 @@
 export class Card {
-  constructor({ data, handleCardClick }, cardSelector) {
+  constructor({ data, handleCardClick, handleLikeClick, handleDeleteClick }, cardSelector) {
     this._name = data.name;
     this._link = data.link;
+    this._likes = data.likes;
+    this._myId = data._id;
+    this._owner = data.owner._id;
     this._handleCardClick = handleCardClick;
+    this._handleLikeClick = handleLikeClick;
+    this._handleDeleteClick = handleDeleteClick;
     this._cardSelector = cardSelector;
   }
 
@@ -23,19 +28,27 @@ export class Card {
     this._element.querySelector(".card__caption").textContent = this._name;
     const buttonLike = this._element.querySelector(".card__button-like");
     const buttonDelete = this._element.querySelector(".card__delete");
+    if(this._owner != '013c4b1d0e352de63c67d87b'){
+      buttonDelete.remove();
+    }
     this._setEventListener(buttonDelete, cardImage, buttonLike);
 
     return this._element;
   }
 
+  remove() {
+    this._element.remove();
+  }
+
   _setEventListener(buttonDelete, cardImage, buttonLike) {
     buttonLike.addEventListener("click", function (evt) {
+      this._handleLikeClick();
       evt.target.classList.toggle("card__button-like_active");
     });
 
-    buttonDelete.addEventListener("click", function () {
-      const listItem = buttonDelete.closest(".cards__list-item");
-      listItem.remove();
+    buttonDelete.addEventListener("click", () => {
+      this._handleDeleteClick(this._myId);
+      this.remove();
     });
 
     cardImage.addEventListener("click", () => {

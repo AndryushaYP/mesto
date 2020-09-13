@@ -16,12 +16,12 @@
 
     <main class="content">
       <section class="profile">
-        <img src="./images/avatar.jpg" alt="Жак-Ив Кусто" class="profile__avatar" />
+        <img src="#" alt="Жак-Ив Кусто" class="profile__avatar" />
 
         <div class="profile__info">
-          <h1 class="profile__title">Жак-Ив Кусто</h1>
+          <h1 class="profile__title"></h1>
           <button type="button" class="profile__button profile__button_edit"></button>
-          <p class="profile__subtitle">Исследователь океана</p>
+          <p class="profile__subtitle"></p>
         </div>
 
         <button type="button" class="profile__button profile__button_add"></button>
@@ -56,14 +56,14 @@
         <label class="popup__label">
           <input
             type="text"
-            name="profession"
+            name="about"
             class="popup__input popup__input_profession"
             value=""
             required
             minlength="2"
             maxlength="200"
           />
-          <span class="popup__error" id="profession-error"></span>
+          <span class="popup__error" id="about-error"></span>
         </label>
 
         <button type="submit" class="popup__button">Сохранить</button>
@@ -115,6 +115,27 @@
 
         <button type="button" class="popup__button-close"></button>
       </div>
+    </div>
+
+    <div class="popup popup_type_avatar">
+      <form action="#" method="POST" class="popup__form popup__form_type_avatar" name="add" novalidate>
+        <h2 class="popup__title">Обновить аватар</h2>
+
+        <label class="popup__label">
+          <input
+            type="url"
+            name="avatar"
+            class="popup__input popup__input_link"
+            value=""
+            placeholder="Ссылка на аватар"
+            required
+          />
+          <span class="popup__error" id="avatar-error"></span>
+        </label>
+
+        <button type="submit" class="popup__button">Сохранить</button>
+        <button type="button" class="popup__button-close"></button>
+      </form>
     </div>
 
     <template id="card-template">
