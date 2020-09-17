@@ -39,12 +39,128 @@ avatarFormValidator.enableValidation();
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
 
+const api = new Api({
+  // Экземпляр класса АПИ
+  url: "https://mesto.nomoreparties.co/v1/cohort-15/cards",
+  headers: {
+    authorization: "a0bff86e-f64d-4da1-b51a-ea82a126a932",
+    "Content-Type": "application/json",
+  },
+});
+
+api /// Загрузка информации о пользователе с сервера
+  .getUserData()
+  .then((data) => {
+    console.log(data._id);
+    userInfo.setUserInfo(data);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+api
+  .getAllCardsList() /// Рендерим массив карточек
+  .then((data) => {
+    console.log(data);
+    const cardList = new Section(
+      {
+        data: data,
+
+        renderer: (item) => {
+          createCard(item);
+        },
+      },
+      ".cards__list"
+    );
+    cardList.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+const popupEditForm = new PopupWithForm({
+  // Экземпляр класса для редактирования профиля
+  popupSelector: popupEdit,
+  buttonSelector: buttonSubmitEdit,
+  formSubmitHandler: (formData) => {
+    api
+      .changeUserData(formData)
+      .then((formData) => {
+        userInfo.setUserInfo(formData);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        popupEditForm.renderLoading(false);
+      });
+
+    popupEditForm.close();
+    editFormValidator.buttonSubmitBlock(buttonSubmitEdit);
+  },
+});
+
+const popupAddForm = new PopupWithForm({
+  /// Экземпляр класса для добавления карточки
+  popupSelector: popupAdd,
+  buttonSelector: buttonSubmitAdd,
+  formSubmitHandler: (cardData) => {
+    console.log(cardData);
+    api
+      .addCard(cardData)
+      .then((cardData) => {
+        console.log(cardData.owner._id);
+        createCard(cardData);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        popupAddForm.renderLoading(false);
+      });
+    addFormValidator.buttonSubmitBlock(buttonSubmitAdd);
+    popupAddForm.close();
+  },
+});
+
+const avatarEditForm = new PopupWithForm({
+  // Экземпляр класса для изменения аватара
+  popupSelector: popupAvatar,
+  buttonSelector: buttonSubmitAvatar,
+  formSubmitHandler: (formData) => {
+    api
+      .changeUserAvatar(formData)
+      .then((formData) => {
+        userInfo.setUserInfo(formData);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        avatarEditForm.renderLoading(false);
+      });
+    avatarFormValidator.buttonSubmitBlock(buttonSubmitAvatar);
+    avatarEditForm.close();
+  },
+});
+
 const popupConfirmForm = new PopupWithSubmit({
+  //Экземпляр попапа подтверждения
   popupSelector: popupConfirm,
   formConfirmationHandler: () => {},
 });
 
+const addCardList = new Section(
+  {
+    data: [],
+
+    renderer: () => {},
+  },
+  ".cards__list"
+);
+
 const createCard = (item) => {
+  //функция создания экземпляра класса Card
   const card = new Card(
     {
       data: item,
@@ -93,116 +209,18 @@ const createCard = (item) => {
   );
 
   const cardElement = card.generateCard();
-
-  document.querySelector(".cards__list").prepend(cardElement);
+  addCardList.addItem(cardElement);
   card.updateLike(item);
 };
-
-const api = new Api({
-  url: "https://mesto.nomoreparties.co/v1/cohort-15/cards",
-  headers: {
-    authorization: "a0bff86e-f64d-4da1-b51a-ea82a126a932",
-    "Content-Type": "application/json",
-  },
-});
-
-api
-  .getAllCardsList()
-  .then((data) => {
-    console.log(data);
-    const cardList = new Section(
-      {
-        data: data,
-
-        renderer: (item) => {
-          createCard(item);
-        },
-      },
-      ".cards__list"
-    );
-    cardList.renderItems();
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-api
-  .getUserData()
-  .then((data) => {
-    console.log(data._id);
-    userInfo.setUserInfo(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-const popupEditForm = new PopupWithForm({
-  popupSelector: popupEdit,
-  buttonSelector: buttonSubmitEdit,
-  formSubmitHandler: (formData) => {
-    api
-      .changeUserData(formData)
-      .then((formData) => {
-        userInfo.setUserInfo(formData);
-      })
-      .catch((err) => {
-        console.log(err);
-      }).finally(() => {
-        popupEditForm.renderLoading(false)
-      });
-
-    popupEditForm.close();
-    editFormValidator.buttonSubmitBlock(buttonSubmitEdit);
-  },
-});
-
-const avatarEditForm = new PopupWithForm({
-  popupSelector: popupAvatar,
-  buttonSelector: buttonSubmitAvatar,
-  formSubmitHandler: (formData) => {
-    api
-      .changeUserAvatar(formData)
-      .then((formData) => {
-        userInfo.setUserInfo(formData);
-      })
-      .catch((err) => {
-        console.log(err);
-      }).finally(() => {
-        avatarEditForm.renderLoading(false)
-      });
-    avatarFormValidator.buttonSubmitBlock(buttonSubmitAvatar);
-    avatarEditForm.close();
-  },
-});
 
 avatarOverlay.addEventListener("click", () => {
   avatarEditForm.open();
 });
 
-const popupAddForm = new PopupWithForm({
-  popupSelector: popupAdd,
-  buttonSelector: buttonSubmitAdd,
-  formSubmitHandler: (cardData) => {
-    console.log(cardData);
-    api
-      .addCard(cardData)
-      .then((cardData) => {
-        console.log(cardData.owner._id);
-        createCard(cardData);
-      })
-      .catch((err) => {
-        console.log(err);
-      }).finally(() => {
-        popupAddForm.renderLoading(false);
-      });
-    addFormValidator.buttonSubmitBlock(buttonSubmitAdd);
-    popupAddForm.close();
-  },
-});
-
 const imagePopup = new PopupWithImage(popupImage);
 
 const userInfo = new UserInfo({
+  // Экземпляр ЮзерИнфо
   nameSelector: profileTitle,
   profileInfoSelector: profileSubtitle,
   avatarSelector: avatarIcon,
