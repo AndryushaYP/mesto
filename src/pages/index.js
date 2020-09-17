@@ -13,10 +13,12 @@ import {
   profileSubtitle,
   buttonSubmitEdit,
   buttonSubmitAdd,
-  avatarIcon, 
-  avatarForm, 
+  avatarIcon,
+  avatarForm,
   popupAvatar,
-  buttonSubmitAvatar
+  buttonSubmitAvatar,
+  avatarOverlay,
+  popupConfirm,
 } from "../utils/constants.js";
 
 import { FormValidator } from "../components/FormValidator.js";
@@ -24,6 +26,7 @@ import { Card } from "../components/Card.js";
 import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
+import { PopupWithSubmit } from "../components/PopupWithSubmit.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { Api } from "../components/Api.js";
 import "../pages/index.css";
@@ -36,6 +39,11 @@ avatarFormValidator.enableValidation();
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
 
+const popupConfirmForm = new PopupWithSubmit({
+  popupSelector: popupConfirm,
+  formConfirmationHandler: () => {},
+});
+
 const createCard = (item) => {
   const card = new Card(
     {
@@ -43,21 +51,51 @@ const createCard = (item) => {
       handleCardClick: (cardData) => {
         imagePopup.open(cardData);
       },
-      handleLikeClick: () => {
+      handleLikeClick: (id) => {
+        api
+          .addLikeCard(id)
+          .then((res) => {
+            card.updateLike(res);
 
+            console.log(res.likes);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       },
+      handleLikeRemove: (id) => {
+        api
+          .deleteLikeCard(id)
+          .then((res) => {
+            card.updateLike(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+
       handleDeleteClick: (id) => {
-        api.deleteCard(id).then(res => {
-          console.log(res)
-          card.remove();
-        })
-      }
+        popupConfirmForm.setSubmitAction(() => {
+          api
+            .deleteCard(id)
+            .then((res) => {
+              card.remove();
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+        popupConfirmForm.open();
+      },
     },
     "#card-template"
   );
 
   const cardElement = card.generateCard();
+
   document.querySelector(".cards__list").prepend(cardElement);
+  card.updateLike(item);
 };
 
 const api = new Api({
@@ -68,35 +106,51 @@ const api = new Api({
   },
 });
 
-api.getAllCardsList().then((data) => {
-  console.log(data)
-  const cardList = new Section(
-    {
-      data: data,
+api
+  .getAllCardsList()
+  .then((data) => {
+    console.log(data);
+    const cardList = new Section(
+      {
+        data: data,
 
-      renderer: (item) => {
-        createCard(item);
+        renderer: (item) => {
+          createCard(item);
+        },
       },
-    },
-    ".cards__list"
-  );
-  cardList.renderItems();
-});
+      ".cards__list"
+    );
+    cardList.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-api.getUserData().then((data) => {
-  console.log(data)
-  profileTitle.textContent = data.name;
-  profileSubtitle.textContent = data.about;
-  avatarIcon.src = data.avatar;
-})
+api
+  .getUserData()
+  .then((data) => {
+    console.log(data._id);
+    userInfo.setUserInfo(data);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 const popupEditForm = new PopupWithForm({
   popupSelector: popupEdit,
+  buttonSelector: buttonSubmitEdit,
   formSubmitHandler: (formData) => {
-    api.changeUserData(formData).then((formData) => {
-      userInfo.setUserInfo(formData);
-    })
-    
+    api
+      .changeUserData(formData)
+      .then((formData) => {
+        userInfo.setUserInfo(formData);
+      })
+      .catch((err) => {
+        console.log(err);
+      }).finally(() => {
+        popupEditForm.renderLoading(false)
+      });
+
     popupEditForm.close();
     editFormValidator.buttonSubmitBlock(buttonSubmitEdit);
   },
@@ -104,27 +158,43 @@ const popupEditForm = new PopupWithForm({
 
 const avatarEditForm = new PopupWithForm({
   popupSelector: popupAvatar,
+  buttonSelector: buttonSubmitAvatar,
   formSubmitHandler: (formData) => {
-    api.changeUserAvatar(formData).then((formData) => {
-      userInfo.setUserInfo(formData);
-    })
+    api
+      .changeUserAvatar(formData)
+      .then((formData) => {
+        userInfo.setUserInfo(formData);
+      })
+      .catch((err) => {
+        console.log(err);
+      }).finally(() => {
+        avatarEditForm.renderLoading(false)
+      });
     avatarFormValidator.buttonSubmitBlock(buttonSubmitAvatar);
     avatarEditForm.close();
   },
-})
+});
 
-avatarIcon.addEventListener("click", () => {
+avatarOverlay.addEventListener("click", () => {
   avatarEditForm.open();
 });
 
 const popupAddForm = new PopupWithForm({
   popupSelector: popupAdd,
+  buttonSelector: buttonSubmitAdd,
   formSubmitHandler: (cardData) => {
     console.log(cardData);
-    api.addCard(cardData).then((cardData) => { //Сохраняем карточку на сервер
-      console.log(cardData.owner._id)
-      createCard(cardData);
-    });
+    api
+      .addCard(cardData)
+      .then((cardData) => {
+        console.log(cardData.owner._id);
+        createCard(cardData);
+      })
+      .catch((err) => {
+        console.log(err);
+      }).finally(() => {
+        popupAddForm.renderLoading(false);
+      });
     addFormValidator.buttonSubmitBlock(buttonSubmitAdd);
     popupAddForm.close();
   },
@@ -135,13 +205,8 @@ const imagePopup = new PopupWithImage(popupImage);
 const userInfo = new UserInfo({
   nameSelector: profileTitle,
   profileInfoSelector: profileSubtitle,
-  avatarSelector: avatarIcon
+  avatarSelector: avatarIcon,
 });
-
-//////////////////
-
-
-//////////////////
 
 buttonEdit.addEventListener("click", () => {
   const currentUserInfo = userInfo.getUserInfo();
@@ -156,6 +221,7 @@ buttonAdd.addEventListener("click", () => {
   popupAddForm.open();
 });
 
+popupConfirmForm.setEventListeners();
 avatarEditForm.setEventListeners();
 popupAddForm.setEventListeners();
 popupEditForm.setEventListeners();

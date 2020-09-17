@@ -1,5 +1,7 @@
 @import url(./_opened/popup_opened.css);
 @import url(./__form/popup__form.css);
+@import url(./__form/_type/popup__form_type_avatar.css);
+@import url(./__form/_type/popup__form_type_confirm.css);
 @import url(./__card-contain/popup__card-contain.css);
 @import url(./__image/popup__image.css);
 @import url(./__title/popup__title.css);

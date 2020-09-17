@@ -15,7 +15,7 @@ export class Api {
         return res.json();
       }
 
-      return Promise.reject("Server failed!");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
 
@@ -29,7 +29,7 @@ export class Api {
         return res.json();
       }
 
-      return Promise.reject("Server failed!");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
 
@@ -42,7 +42,7 @@ export class Api {
         return res.json();
       }
 
-      return Promise.reject("Server failed!");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
 
@@ -56,7 +56,7 @@ export class Api {
         return res.json();
       }
 
-      return Promise.reject("Server failed!");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
 
@@ -70,7 +70,7 @@ export class Api {
         return res.json();
       }
 
-      return Promise.reject("Server failed!");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
 
@@ -83,11 +83,33 @@ export class Api {
         return res.json();
       }
 
-      return Promise.reject("Server failed!");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
 
-  addLikeCard() {}
+  addLikeCard(id) {
+    return fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/likes/${id}`, {
+      method: "PUT",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
 
-  deleteLikeCard() {}
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+
+  deleteLikeCard(id) {
+    return fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/likes/${id}`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
 }
