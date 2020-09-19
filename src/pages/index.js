@@ -181,6 +181,7 @@ const createCard = (item) => {
             .deleteCard(id)
             .then((res) => {
               card.remove();
+              popupConfirmForm.close();
               console.log(res);
             })
             .catch((err) => {

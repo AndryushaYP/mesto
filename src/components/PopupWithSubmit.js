@@ -24,7 +24,6 @@ export class PopupWithSubmit extends Popup {
       evt.preventDefault();
       this.renderLoading(true);
       this._formConfirmationHandler();
-      super.close();
     });
     
     super.setEventListeners();
