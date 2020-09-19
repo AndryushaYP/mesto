@@ -1,6 +1,6 @@
 export class Card {
   constructor(
-    { data, handleCardClick, handleLikeClick, handleLikeRemove, handleDeleteClick },
+    { data, handleCardClick, handleLikeClick, handleLikeRemove, handleDeleteClick }, id,
     cardSelector
   ) {
     this._name = data.name;
@@ -11,6 +11,7 @@ export class Card {
     this._handleLikeClick = handleLikeClick;
     this._handleLikeRemove = handleLikeRemove;
     this._handleDeleteClick = handleDeleteClick;
+    this._myId = id._id;
     this._cardSelector = cardSelector;
   }
 
@@ -31,7 +32,7 @@ export class Card {
     this._element.querySelector(".card__caption").textContent = this._name;
     const buttonLike = this._element.querySelector(".card__button-like");
     const buttonDelete = this._element.querySelector(".card__delete");
-    if (this._owner != "013c4b1d0e352de63c67d87b") {
+    if (this._owner != this._myId) {
       buttonDelete.remove();
     }
     this._setEventListener(buttonDelete, cardImage, buttonLike);
@@ -40,7 +41,7 @@ export class Card {
 
   updateLike(data) {
     this.likeCounts = data.likes;
-    this.isLiked = data.likes.some((elId) => elId._id === "013c4b1d0e352de63c67d87b");
+    this.isLiked = data.likes.some((elId) => elId._id === this._myId);
     this._renderBtn(this.isLiked);
     this._element.querySelector(".like__counter").textContent = this.likeCounts.length;
     return this.isLiked;
@@ -66,6 +67,7 @@ export class Card {
 
   remove() {
     this._element.remove();
+    this._element.innerHTML = "";
   }
 
   _setEventListener(buttonDelete, cardImage, buttonLike) {

@@ -14,6 +14,7 @@ export const popupConfirm = document.querySelector(".popup_type_confirm");
 export const buttonSubmitEdit = popupEdit.querySelector(".popup__button");
 export const buttonSubmitAdd = popupAdd.querySelector(".popup__button");
 export const buttonSubmitAvatar = popupAvatar.querySelector(".popup__button");
+export const buttonSubmitConfirm = popupConfirm.querySelector(".popup__button");
 
 export const buttonEdit = document.querySelector(".profile__button_edit");
 export const buttonAdd = document.querySelector(".profile__button_add");
